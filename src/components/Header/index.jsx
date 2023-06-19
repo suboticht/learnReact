@@ -1,13 +1,37 @@
-const Header = ({name}) => {
-  return <header className="border-b border-slate-300 py-4">
-      <div className="container mx-auto">
-          <div className="flex text-zinc-500">
-              <div className="basis-4/5 font-medium text-3xl">{name}</div>
-              <div className="basis-1/5">
-                  <p className="text-2xl"><span className="inline-block mr-10">full name here</span><span>logout</span></p>
-              </div>
-          </div>
-      </div>
-  </header>
+import React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
+
+export default function Header() {
+  return (
+    <AppBar
+      position="static"
+      color="default"
+      elevation={0}
+      sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
+    >
+      <Toolbar sx={{ flexWrap: 'wrap' }}>
+        <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
+          Company name
+        </Typography>
+        <nav>
+          <Link variant="button" color="text.primary" href="/" sx={{ my: 1, mx: 1.5 }}>
+            Home
+          </Link>
+          <Link variant="button" color="text.primary" href="/pricing" sx={{ my: 1, mx: 1.5 }}>
+            Pricing
+          </Link>
+          <Link variant="button" color="text.primary" href="/signup" sx={{ my: 1, mx: 1.5 }}>
+            Sign Up
+          </Link>
+        </nav>
+        <Button href="/login" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
+          Login
+        </Button>
+      </Toolbar>
+    </AppBar>
+  );
 }
-export default Header;
