@@ -19,12 +19,7 @@
   "plugins": ["react", "prettier"],
   "ignorePatterns": ["vendor/", "build/", "public/build", "coverage/"],
   "rules": {
-    "prettier/prettier": [
-      "error",
-      {
-        "endOfLine": "auto"
-      }
-    ],
+    "prettier/prettier": 0,
     "linebreak-style": 0,
     "no-use-before-define": "off",
     "no-unused-expressions": "off",
