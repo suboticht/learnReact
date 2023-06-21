@@ -35,8 +35,7 @@ export default function BasicModal(props) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const onChangeUsername = (event) => {
-    const dis = event.target.value === "";
-    setDisab(dis);
+    setDisab(event.target.value === "");
     setUsername(event.target.value);
   }
   const onChangeEmail = (event) => setEmail(event.target.value);

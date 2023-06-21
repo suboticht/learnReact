@@ -6,13 +6,13 @@ import Layout from './layout';
 function App() {
   return <Router>
   <Routes>
-    {routes.map((route, index) => {
+    {routes.map((route) => {
       const Page = route.component;
       return <Route 
-        key={index}
+        key={route.name}
         path={route.path} 
         element={ 
-          <Layout>
+          <Layout title={route.name}>
             <Page/>
           </Layout>
        }

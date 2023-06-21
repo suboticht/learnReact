@@ -1,3 +1,5 @@
+import React from 'react';
+
 const Header = ({name}) => {
   return <header className="border-b border-slate-300 py-4">
       <div className="container mx-auto">
