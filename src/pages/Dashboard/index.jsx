@@ -78,7 +78,14 @@ export default function StickyHeadTable() {
                       const value = column.id === "address" ? `${row[column.id].street}, ${row[column.id].suite}` : row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.id === "iconButton" ? <div className='flex'><ModalPopup dataRow={row} rowId={index} onChangeRow={handleChangeRow} /><DeleteIcon onClick={() => handleDelete(row.id)}  sx={{cursor: "pointer"}}/></div> : value}
+                          {
+                            column.id === "iconButton" ? 
+                            <div className='flex'>
+                              <ModalPopup dataRow={row} rowId={index} onChangeRow={handleChangeRow} />
+                              <DeleteIcon onClick={() => handleDelete(row.id)}  sx={{cursor: "pointer"}}/>
+                            </div> : 
+                            value
+                          }
                         </TableCell>
                       );
                     })}

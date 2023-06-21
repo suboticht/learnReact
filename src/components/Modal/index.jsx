@@ -26,6 +26,7 @@ export default function BasicModal(props) {
   const {dataRow, onChangeRow, rowId} = props;
   
   const [open, setOpen] = React.useState(false);
+  const [disab, setDisab] = React.useState(false);
   const [username, setUsername] = React.useState(dataRow.username);
   const [email, setEmail] = React.useState(dataRow.email);
   const [name, setName] = React.useState(dataRow.name);
@@ -33,7 +34,11 @@ export default function BasicModal(props) {
   const [zipcode, setZipcode] = React.useState(dataRow.address.zipcode);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const onChangeUsername = (event) => setUsername(event.target.value);
+  const onChangeUsername = (event) => {
+    const dis = event.target.value === "";
+    setDisab(dis);
+    setUsername(event.target.value);
+  }
   const onChangeEmail = (event) => setEmail(event.target.value);
   const onChangeName = (event) => setName(event.target.value);
   const onChangeCity = (event) => setCity(event.target.value);
@@ -126,7 +131,6 @@ export default function BasicModal(props) {
                 fullWidth
                 name="city"
                 value={city}
-                type="city"
                 id="city"
                 autoComplete="new-city"
                 onChange={onChangeCity}
@@ -141,14 +145,19 @@ export default function BasicModal(props) {
                 fullWidth
                 name="zipcode"
                 value={zipcode}
-                type="zipcode"
                 id="zipcode"
                 autoComplete="new-zipcode"
                 onChange={onChangeZipcode}
               />
             </Grid>
           </Grid>
-          <Button type="submit" variant="contained"  onClick={() => handleSubmit()} sx={{ mt: 3, mb: 2 }}>
+          <Button 
+            type="submit" 
+            variant="contained" 
+            disabled={disab}
+            onClick={() => handleSubmit()} 
+            sx={{ mt: 3, mb: 2 }}
+          >
             Submit
           </Button>
         </Box>
