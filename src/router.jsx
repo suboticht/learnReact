@@ -1,5 +1,5 @@
-import Dashboard from "../pages/Dashboard";
-import Profile from "../pages/Profile";
+import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
 
 const publicPage = [
     {

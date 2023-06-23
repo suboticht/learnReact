@@ -44,14 +44,12 @@ export default function BasicModal(props) {
   const onChangeZipcode = (event) => setZipcode(event.target.value);
   const validateForm = () => {
     if(isEmpty(username)) {
-      console.log('1');
       return false;
     }
     return true
   }
   const handleSubmit = async () => {
     if(!validateForm()) {
-      console.log('2');
       return false;
     }
     dataRow.username = username;
