@@ -154,7 +154,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
+  const { numSelected, onDelete } = props;
 
   return (
     <Toolbar
@@ -188,8 +188,8 @@ function EnhancedTableToolbar(props) {
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
+        <Tooltip>
+          <IconButton onClick={onDelete}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -252,6 +252,16 @@ export default function EnhancedTable() {
     setSelected(newSelected);
   };
 
+  const handleDelete = (select) => {
+    let newRows = [];
+    rows.forEach((row) => {
+      if(select.indexOf(row.name) === -1) {
+        newRows = [...newRows, row];
+      }
+    })
+    setRows(newRows);
+  }
+
   const handleChangeRow = (id, newRow) => {
     const newRows = [...rows];
     newRows[id] = newRow;
@@ -296,7 +306,7 @@ export default function EnhancedTable() {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar onDelete={() => handleDelete(selected)} numSelected={selected.length} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}

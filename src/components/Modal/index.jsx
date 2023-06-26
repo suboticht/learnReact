@@ -56,7 +56,6 @@ export default function BasicModal(props) {
       alert('Dữ liệu đang trống')
       return false;
     }
-    console.log("true");
     setOpenAlert(true);
     return true
   }
