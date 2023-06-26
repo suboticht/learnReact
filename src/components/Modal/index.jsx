@@ -7,6 +7,10 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import EditIcon from '@mui/icons-material/Edit';
+import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
+import CloseIcon from '@mui/icons-material/Close';
 import { isEmpty } from '../../utils';
 
 const style = {
@@ -24,39 +28,47 @@ const style = {
 
 export default function BasicModal(props) {
   const {dataRow, onChangeRow, rowId} = props;
+  const data = {
+    userName: dataRow.username, 
+    email: dataRow.email, 
+    name: dataRow.name, 
+    city: dataRow.address.city, 
+    zipcode: dataRow.address.zipcode
+  }
   
   const [open, setOpen] = React.useState(false);
-  const [disab, setDisab] = React.useState(false);
-  const [username, setUsername] = React.useState(dataRow.username);
-  const [email, setEmail] = React.useState(dataRow.email);
-  const [name, setName] = React.useState(dataRow.name);
-  const [city, setCity] = React.useState(dataRow.address.city);
-  const [zipcode, setZipcode] = React.useState(dataRow.address.zipcode);
+  // const [disab, setDisab] = React.useState(false);
+  const [openAlert, setOpenAlert] = React.useState(false);
+  const [formData, setFormData] = React.useState(data);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const onChangeUsername = (event) => {
-    setDisab(event.target.value === "");
-    setUsername(event.target.value);
+  const handleClose = () => {
+    setOpen(false);
+    setOpenAlert(false);
   }
-  const onChangeEmail = (event) => setEmail(event.target.value);
-  const onChangeName = (event) => setName(event.target.value);
-  const onChangeCity = (event) => setCity(event.target.value);
-  const onChangeZipcode = (event) => setZipcode(event.target.value);
+  const onChangeInput = (event) => {
+    setFormData((prev) => ({...prev, [event.target.name] : event.target.value}));
+    console.log(formData);
+  }
+  
   const validateForm = () => {
-    if(isEmpty(username)) {
+    const { userName, email, name, city, zipcode } = formData;
+    if(isEmpty(userName) || isEmpty(email) || isEmpty(name) || isEmpty(city) || isEmpty(zipcode) ) {
+      alert('Dữ liệu đang trống')
       return false;
     }
+    console.log("true");
+    setOpenAlert(true);
     return true
   }
   const handleSubmit = async () => {
     if(!validateForm()) {
       return false;
     }
-    dataRow.username = username;
-    dataRow.name = name;
-    dataRow.email = email;
-    dataRow.address.city = city;
-    dataRow.address.zipcode = zipcode;
+    dataRow.username = formData.userName;
+    dataRow.name = formData.name;
+    dataRow.email = formData.email;
+    dataRow.address.city = formData.city;
+    dataRow.address.zipcode = formData.zipcode;
     onChangeRow(rowId, dataRow);
     return true;
   };
@@ -74,6 +86,27 @@ export default function BasicModal(props) {
           <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
             Edit Profile
           </Typography>
+          <Box sx={{ width: '100%' }}>
+            <Collapse in={openAlert}>
+              <Alert
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setOpenAlert(false);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                Update susscess
+              </Alert>
+            </Collapse>
+          </Box>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
             <InputLabel shrink htmlFor="bootstrap-input">
@@ -85,10 +118,10 @@ export default function BasicModal(props) {
                 required
                 fullWidth
                 id="user-name"
-                value={username}
+                defaultValue={dataRow.username}
                 autoFocus
                 placeholder="Please enter username"
-                onChange={onChangeUsername}
+                onChange={onChangeInput}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -100,9 +133,9 @@ export default function BasicModal(props) {
                 fullWidth
                 id="email"
                 name="email"
-                value={email}
+                defaultValue={dataRow.email}
                 autoComplete="email"
-                onChange={onChangeEmail}
+                onChange={onChangeInput}
               />
             </Grid>
             <Grid item xs={12}>
@@ -114,9 +147,9 @@ export default function BasicModal(props) {
                 fullWidth
                 id="name"
                 name="name"
-                value={name}
+                defaultValue={dataRow.name}
                 autoComplete="name"
-                onChange={onChangeName}
+                onChange={onChangeInput}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -127,10 +160,10 @@ export default function BasicModal(props) {
                 required
                 fullWidth
                 name="city"
-                value={city}
+                defaultValue={dataRow.address.city}
                 id="city"
                 autoComplete="new-city"
-                onChange={onChangeCity}
+                onChange={onChangeInput}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -141,17 +174,16 @@ export default function BasicModal(props) {
                 required
                 fullWidth
                 name="zipcode"
-                value={zipcode}
+                defaultValue={dataRow.address.zipcode}
                 id="zipcode"
                 autoComplete="new-zipcode"
-                onChange={onChangeZipcode}
+                onChange={onChangeInput}
               />
             </Grid>
           </Grid>
           <Button 
             type="submit" 
             variant="contained" 
-            disabled={disab}
             onClick={() => handleSubmit()} 
             sx={{ mt: 3, mb: 2 }}
           >
